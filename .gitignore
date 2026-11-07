@@ -1,0 +1,8 @@
+node_modules
+contract/target
+resolver/.state
+web/dist
+.DS_Store
+.env
+.env.*
+!.env.example

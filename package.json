@@ -1,0 +1,43 @@
+{
+  "name": "logline",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "description": "Logline: bets on the line, settled by the logs. Prediction markets on on-chain metrics, on NEAR.",
+  "scripts": {
+    "dev": "vite web",
+    "build": "vite build web",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "markets:create": "node --disable-warning=ExperimentalWarning resolver/create.ts",
+    "markets:demo": "node --disable-warning=ExperimentalWarning resolver/demo.ts",
+    "resolver": "node --disable-warning=ExperimentalWarning resolver/daemon.ts",
+    "verify": "node --disable-warning=ExperimentalWarning resolver/verify.ts",
+    "contract:test": "cd contract && cargo test",
+    "contract:deploy": "cd contract && cargo near deploy build-non-reproducible-wasm --env \"RUSTFLAGS=-C link-arg=-s --remap-path-prefix=$HOME=~\" $CONTRACT_ID without-init-call network-config testnet sign-with-legacy-keychain send",
+    "contract:deploy:mainnet": "cd contract && cargo near deploy build-non-reproducible-wasm --env \"RUSTFLAGS=-C link-arg=-s --remap-path-prefix=$HOME=~\" loglines.near with-init-call new json-args '{\"owner\":\"loglines.near\",\"resolver\":\"resolver.loglines.near\",\"token\":\"17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1\",\"decimals\":6}' prepaid-gas '100.0 Tgas' attached-deposit '0 NEAR' network-config mainnet sign-with-legacy-keychain send",
+    "markets:long": "node --disable-warning=ExperimentalWarning resolver/demo.ts --long",
+    "e2e": "node --disable-warning=ExperimentalWarning resolver/e2e.ts",
+    "contract:wasm": "cd contract && cargo near build non-reproducible-wasm --env \"RUSTFLAGS=-C link-arg=-s --remap-path-prefix=$HOME=~\" && cp target/near/logline.wasm res/logline.wasm && shasum -a 256 res/logline.wasm"
+  },
+  "dependencies": {
+    "@hot-labs/near-connect": "^0.12.0",
+    "@solana/spl-token": "^0.4.15",
+    "@solana/web3.js": "^1.99.0",
+    "buffer": "^6.0.3",
+    "near-api-js": "^7.4.0",
+    "qrcode": "^1.5.4",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "viem": "^2.57.16"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "@types/qrcode": "^1.5.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.2.1",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.6"
+  }
+}
